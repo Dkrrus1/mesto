@@ -1,0 +1,11 @@
+.profile__add-button{
+  height: 50px;
+  width: 150px;
+  align-self: center;
+  margin-left: auto;
+  background-color: #000;
+  background-repeat: no-repeat;
+  background-position: center;
+  border: 2px solid white;
+  background-image: url(../../../images/cross.svg);
+}

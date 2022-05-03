@@ -1,0 +1,6 @@
+.header{
+  max-height: 74px;
+  height: calc(56px + (74 - 56) * ( (100vw - 320px) / ( 1280 - 320) ));
+  padding-top: 45px;
+  border-bottom: 1px solid #545454;
+}
