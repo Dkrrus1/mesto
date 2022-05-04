@@ -9,3 +9,11 @@
   border: 2px solid white;
   background-image: url(../../../images/cross.svg);
 }
+
+@media screen and (max-width:920px) {
+  .profile__add-button{
+    width: 100%;
+    background-size: 16px;
+    margin: 0 auto;
+  }
+}

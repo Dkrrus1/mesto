@@ -2,3 +2,9 @@
   margin-top: 50px;
   margin-bottom: 66px;
 }
+
+@media screen and (max-width:920px) {
+  .cards{
+    margin-bottom: 48px;
+  }
+}
