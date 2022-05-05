@@ -13,6 +13,6 @@
   .profile__name{
     max-width: calc(189px + (294 - 189) * ( (100vw - 320px) / ( 920 - 320) ));
     font-size: calc(27px + (42 - 27) * ( (100vw - 320px) / ( 920 - 320) ));
-    margin-left: auto;
+    margin-left: calc(45px + (0 - 45) * ( (100vw - 320px) / ( 920 - 320) ));
   }
 }

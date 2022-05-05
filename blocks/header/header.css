@@ -1,12 +1,13 @@
 .header{
   max-height: 74px;
-  height: calc(56px + (74 - 56) * ( (100vw - 320px) / ( 1280 - 320) ));
   padding-top: 45px;
+  padding-bottom: 41px;
   border-bottom: 1px solid #545454;
 }
 
 @media screen and (max-width:920px) {
   .header{
     padding-top: calc(28px + (45 - 28) * ( (100vw - 320px) / ( 920 - 320) ));
+    padding-bottom: calc(31.6px + (41 - 31.6) * ( (100vw - 320px) / ( 920 - 320) ));
   }
 }

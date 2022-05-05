@@ -2,7 +2,7 @@
   font-size: 18px;
   line-height: 1.22;
   font-weight: 400;
-  margin: 16px 0 auto 0;
+  margin: 8px 0 auto 0;
   text-overflow: ellipsis;
   white-space: nowrap;
   overflow: hidden;
@@ -10,7 +10,7 @@
 
 @media screen and (max-width:920px) {
   .profile__profession{
-    margin: 14px auto 0 auto;
     font-size: calc(14px + (18 - 14) * ( (100vw - 320px) / ( 920 - 320) ));
+    margin-left: 62px;
   }
 }
