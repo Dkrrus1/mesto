@@ -7,6 +7,14 @@
   background-position: center;
   border: 1px solid white;
   margin-left: 18px;
+  transition: 0.5s;
+  opacity: 1;
+}
+
+.profile__edit-button:hover{
+  transition: 0.5s;
+  opacity: 0.6;
+  cursor: pointer;
 }
 
 @media screen and (max-width:920px) {

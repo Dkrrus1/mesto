@@ -5,3 +5,12 @@
   background-image: url(../../../images/like.svg);
   border: none;
 }
+
+.card__button:hover{
+  opacity: 0.6;
+  cursor: pointer;
+}
+
+.card__button:focus{
+  background-image: url(../../../images/like-active.svg);
+}

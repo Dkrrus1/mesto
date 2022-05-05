@@ -1,0 +1,17 @@
+.popup{
+  display: none;
+  position: fixed;
+  left: 0;
+  top: 0;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  width: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+}
+
+@media screen and (max-width:920px) {
+  .popup__container{
+    height: calc(100vh - 200px);
+  }
+}
