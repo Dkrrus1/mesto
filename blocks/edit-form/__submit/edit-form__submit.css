@@ -12,3 +12,9 @@
   transition: 0.5s;
   opacity: 0.8;
 }
+
+@media screen  and (max-width:920px) {
+  .edit-form__submit{
+    font-size: calc(14px + (18 - 14) * ( (100vw - 320px) / ( 920 - 320) ));
+  }
+}
