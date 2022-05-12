@@ -2,12 +2,12 @@
   position: relative;
   min-width: 430px;
   box-sizing: border-box;
-  height: calc(100vh - 385px);
+  min-height: calc(100vh - 385px);
 }
 
 @media screen and (max-width:920px) {
   .popup__container{
     min-width: 282px;
-    height: calc(100vh - 246px);
+    min-height: calc(100vh - 246px);
   }
 }

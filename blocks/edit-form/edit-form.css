@@ -3,7 +3,7 @@
   max-width: 430px;
   display: flex;
   flex-direction: column;
-  background-color: #fff;
+  background: #fff;
   border-radius: 10px;
   padding: 36px 34px;
 }

@@ -1,6 +1,6 @@
 .card__description{
   box-sizing: border-box;
-  background-color: #fff;
+  background: #fff;
   width: 100%;
   display: flex;
   justify-content: space-between;
