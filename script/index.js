@@ -25,20 +25,6 @@ const initialCards = [
   }
 ];
 
-function addCard(cardName, cardLink){
-  const cardTemplate = document.querySelector('#card').content;
-  const cardElement = cardTemplate.querySelector('.card').cloneNode(true);
-  const cardContainer = document.querySelector('.cards__grid');
-
-  cardElement.querySelector('.card__title').textContent = cardName;
-  cardElement.querySelector('.card__image').src = cardLink;
-  cardContainer.append(cardElement)
-}
-
-initialCards.forEach(function (item){
-  addCard(item.name, item.link);
-});
-
 let profileName = document.querySelector('.profile__name');
 let profileProfession = document.querySelector('.profile__profession');
 let profileEditButton = document.querySelector('.profile__edit-button');
@@ -47,6 +33,28 @@ let popupCloseButton = document.querySelector('.popup__container-close-button');
 let editName = document.querySelector('.edit-form__name');
 let editProfecy = document.querySelector('.edit-form__profession');
 let saveChanges = document.querySelector('.edit-form');
+const deleteButton = document.querySelector('.card__trash-button');
+
+function addCard(cardName, cardLink){
+  const cardTemplate = document.querySelector('#card').content;
+  const cardElement = cardTemplate.querySelector('.card').cloneNode(true);
+  const cardContainer = document.querySelector('.cards__grid');
+
+  cardElement.querySelector('.card__title').textContent = cardName;
+  cardElement.querySelector('.card__image').src = cardLink;
+  cardElement.querySelector('.card__button').addEventListener('click', function (evt) {
+    evt.target.classList.toggle('card__button_active');
+  });
+  cardElement.querySelector('.card__trash-button').addEventListener('click', function (evt) {
+    const listItem = evt.target.closest('.card');
+    listItem.remove();
+  });
+  cardContainer.append(cardElement);
+}
+
+initialCards.forEach(function (item){
+  addCard(item.name, item.link);
+});
 
 function openEditWindow(){
   editName.value = profileName.textContent;
