@@ -31,3 +31,7 @@
 @import url(../blocks/edit-form/__name/edit-form__name.css);
 @import url(../blocks/edit-form/__profession/edit-form__profession.css);
 @import url(../blocks/edit-form/__submit/edit-form__submit.css);
+@import url(../blocks/image-container/image-container.css);
+@import url(../blocks/popup/__container/_image/popup__container_image.css);
+@import url(../blocks/image-container/__image/image-container__image.css);
+@import url(../blocks/image-container/__title/image-container__title.css);

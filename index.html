@@ -28,7 +28,7 @@
   <footer class="footer">
     <p class="footer__copyright">© 2020 Mesto Russia</p>
   </footer>
-  <div class="popup">
+  <div class="popup popup_profile-form">
     <div class="popup__container">
       <button type="button" class="popup__container-close-button" aria-label="Закрыть окно без сохранения"></button>
       <form class="edit-form" name="profile-edit" method="post">
@@ -39,12 +39,32 @@
       </form>
     </div>
   </div>
+  <div class="popup popup_link-form">
+    <div class="popup__container">
+      <button type="button" class="popup__container-close-button" aria-label="Закрыть окно без сохранения"></button>
+      <form class="edit-form" name="link-add" method="post">
+        <h3 class="edit-form__title">Новое место</h3>
+        <input type="text" name="name" class="edit-form__name" placeholder="Название">
+        <input type="url" name="url" class="edit-form__profession" placeholder="Ссылка на картинку">
+        <button type="submit" class="edit-form__submit" aria-label="Сохранить изменения">Сохранить</button>
+      </form>
+    </div>
+  </div>
+  <div class="popup popup_big-image">
+    <div class="popup__container popup__container_image">
+      <button type="button" class="popup__container-close-button" aria-label="Закрыть"></button>
+        <div class="image-container">
+          <img src="" alt="Увеличенная картинка карточки" class="image-container__image">
+          <h2 class="image-container__title"></h2>
+        </div>
+    </div>
+  </div>
   <template id="card">
     <li class="card">
       <img src="" class="card__image" alt="Картинка карточки">
       <button type="button" class="card__trash-button" aria-label="Удалить карточку"></button>
       <div class="card__description">
-        <h2 class="card__title">Карачаевск</h2>
+        <h2 class="card__title"></h2>
         <button type="button" class="card__button" aria-label="Поставить лайк"></button>
       </div>
     </li>
