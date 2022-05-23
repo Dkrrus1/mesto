@@ -41,14 +41,16 @@ const cardLink = popupLinkAdd.querySelector('.edit-form__profession');
 const popupBigImage = document.querySelector('.popup_big-image');
 const bigImage = document.querySelector('.image-container__image');
 const bigImageTitle = document.querySelector('.image-container__title');
+const cardTemplate = document.querySelector('#card').content;
+const cardContainer = document.querySelector('.cards__grid');
+const popups = document.querySelectorAll('.popup')
 
 // функция добавления карточек
-function addCard(cardName, cardLink){
-  const cardTemplate = document.querySelector('#card').content;
+function createCard(cardName, cardLink){
   const cardElement = cardTemplate.querySelector('.card').cloneNode(true);
-  const cardContainer = document.querySelector('.cards__grid');
 
   cardElement.querySelector('.card__title').textContent = cardName;
+  cardElement.querySelector('.card__image').alt = cardName;
   cardElement.querySelector('.card__image').src = cardLink;
   cardElement.querySelector('.card__button').addEventListener('click', function (evt) {
     evt.target.classList.toggle('card__button_active');
@@ -59,22 +61,32 @@ function addCard(cardName, cardLink){
   });
   cardElement.querySelector('.card__image').addEventListener('click', function () {
     bigImage.src = cardLink;
+    bigImage.alt = cardName;
     bigImageTitle.textContent = cardName;
-    popupBigImage.classList.add('popup_opened');
+    openPopup(popupBigImage);
   });
-  cardContainer.prepend(cardElement);
+  return cardElement;
 };
 
 // добавляем карточки из массива
 initialCards.forEach(function (item){
-  addCard(item.name, item.link);
+  cardContainer.append(createCard(item.name, item.link));
 });
+
+// функции открытия и закрытия попапов
+function openPopup(popup) {
+  popup.classList.add('popup_opened');
+};
+
+function closePopup(popup) {
+  popup.classList.remove('popup_opened');
+};
 
 // функция редактирования профиля
 function openEditProfile(){
   editName.value = profileName.textContent;
   editProfecy.value = profileProfession.textContent;
-  popupProfileEdit.classList.add('popup_opened');
+  openPopup(popupProfileEdit);
 };
 
 // сохранение изменений после редактирования профиля
@@ -82,29 +94,29 @@ function saveEditProfile(evt){
   evt.preventDefault();
   profileName.textContent = editName.value;
   profileProfession.textContent = editProfecy.value;
-  popupProfileEdit.classList.remove('popup_opened');
+  closePopup(popupProfileEdit);
 };
 
-// добавляем слушатель события для всех кнопок закрытия попапов
-document.querySelectorAll('.popup__container-close-button').forEach(item => {
-  item.addEventListener('click', function (evt) {
-    const popupCloseButton = evt.target.closest('.popup');
-    popupCloseButton.classList.remove('popup_opened');
-  });
+// закрываем попапы только по кнопке закрытия
+popups.forEach((popup) => {
+  popup.addEventListener('click', (evt) => {
+     if (evt.target.classList.contains('popup__container-close-button')) {
+        closePopup(popup)
+      }
+  })
 });
 
 // открываем попап для добавления картинок
 function openLinkAdd(){
-  popupLinkAdd.classList.add('popup_opened');
-  cardName.value = '';
-  cardLink.value = '';
+  openPopup(popupLinkAdd);
+  popupLinkAdd.reset();
 };
 
 // добавляем новую карточку
 function addNewCard (evt){
   evt.preventDefault();
-  addCard(cardName.value, cardLink.value);
-  popupLinkAdd.classList.remove('popup_opened');
+  cardContainer.prepend(createCard(cardName.value, cardLink.value));
+  closePopup(popupLinkAdd);
 };
 
 // вешаем слушателей для кнопок
