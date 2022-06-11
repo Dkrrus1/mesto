@@ -118,6 +118,8 @@ popups.forEach((popup) => {
 
 // открываем попап для добавления картинок
 function openLinkAdd(){
+  const submitButton = addNewLink.querySelector('.edit-form__submit');
+  submitButton.classList.add('popup__button_disabled');
   openPopup(popupLinkAdd);
   addNewLink.reset();
 };
