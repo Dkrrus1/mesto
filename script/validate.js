@@ -60,7 +60,7 @@ const cancelHandlerSubmit = (evt) => {
 
 // Функция валидации с задаными параметрами
 enableValidation = (formElements) => {
-  const formList = Array.from(document.querySelectorAll(formElements.formSelector));
+  const formList = document.querySelectorAll(formElements.formSelector);
   formList.forEach((formElement) => {
     formElement.addEventListener('submit', cancelHandlerSubmit);
     setEventListenersInputs(formElement, formElements);
