@@ -120,6 +120,7 @@ popups.forEach((popup) => {
 function openLinkAdd(){
   const submitButton = addNewLink.querySelector('.edit-form__submit');
   submitButton.classList.add('popup__button_disabled');
+  submitButton.setAttribute('disabled', true);
   openPopup(popupLinkAdd);
   addNewLink.reset();
 };
