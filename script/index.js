@@ -73,13 +73,23 @@ initialCards.forEach(function (item){
   cardContainer.append(createCard(item.name, item.link));
 });
 
+// функция закрытия по кнопке escape
+function handleEscape(event) {
+  if (event.key === 'Escape') {
+    const activePopup = document.querySelector('.popup_opened');
+    closePopup(activePopup);
+  }
+}
+
 // функции открытия и закрытия попапов
 function openPopup(popup) {
   popup.classList.add('popup_opened');
+  document.addEventListener('keyup', handleEscape);
 };
 
 function closePopup(popup) {
   popup.classList.remove('popup_opened');
+  document.removeEventListener('keyup', handleEscape);
 };
 
 // функция редактирования профиля
@@ -97,10 +107,10 @@ function saveEditProfile(evt){
   closePopup(popupProfileEdit);
 };
 
-// закрываем попапы только по кнопке закрытия
+// закрываем попапы только по кнопке закрытия и кликом вне формы
 popups.forEach((popup) => {
-  popup.addEventListener('click', (evt) => {
-     if (evt.target.classList.contains('popup__container-close-button')) {
+  popup.addEventListener('mousedown', (evt) => {
+     if (evt.target.classList.contains('popup__container-close-button') || evt.target.classList.contains('popup')) {
         closePopup(popup)
       }
   })
@@ -109,7 +119,7 @@ popups.forEach((popup) => {
 // открываем попап для добавления картинок
 function openLinkAdd(){
   openPopup(popupLinkAdd);
-  popupLinkAdd.reset();
+  addNewLink.reset();
 };
 
 // добавляем новую карточку
