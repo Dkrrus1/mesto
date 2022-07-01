@@ -1,8 +1,4 @@
-import { openPopup } from "./index.js";
-
-const popupBigImage = document.querySelector('.popup_big-image');
-const bigImage = document.querySelector('.image-container__image');
-const bigImageTitle = document.querySelector('.image-container__title');
+import { popupBigImage, bigImage, bigImageTitle, openPopup, cardContainer } from "./utils.js";
 
 export class Card {
   constructor (cardName, cardLink, cardSelector){
@@ -15,34 +11,50 @@ export class Card {
     const cardElement = document.querySelector(this._cardSelector).content.querySelector('.card').cloneNode(true);
     return cardElement;
   }
+  // удаление карточки
+  _deleteCard () {
+    this._element.remove();
+  }
+  // увеличиваем изображение карточки
+  _openBigImage () {
+    bigImage.src = this._cardLink;
+    bigImage.alt = this._cardName;
+    bigImageTitle.textContent = this._cardName;
+    openPopup(popupBigImage);
+  }
+  // поставить или удалить лайк
+  _toggleLike() {
+    this._likeButton.classList.toggle('card__button_active');
+  }
   // слушатели событий
   _setEventListners () {
     //лайк
-    const likeButton = this._element.querySelector('.card__button');
-    likeButton.addEventListener('click', () => {
-    likeButton.classList.toggle('card__button_active');
+    this._likeButton.addEventListener('click', () => {
+      this._toggleLike();
     });
     // удалить карточку
     this._element.querySelector('.card__trash-button').addEventListener('click', () => {
-      const listItem = this._element.closest('.card');
-      listItem.remove();
+      this._deleteCard();
     });
     // увеличенное изображение по клику на картинку карточки
     this._element.querySelector('.card__image').addEventListener('click', () => {
-      bigImage.src = this._cardLink;
-      bigImage.alt = this._cardName;
-      bigImageTitle.textContent = this._cardName;
-      openPopup(popupBigImage);
+      this._openBigImage();
     });
 
     };
 
   generateCard() {
     this._element = this._getTemplate();
+    this._likeButton = this._element.querySelector('.card__button');
     this._element.querySelector('.card__title').textContent = this._cardName;
     this._element.querySelector('.card__image').alt = this._cardName;
     this._element.querySelector('.card__image').src = this._cardLink;
     this._setEventListners();
     return this._element;
+  }
+
+  renderCard() {
+    const newCard = this.generateCard();
+    cardContainer.prepend(newCard);
   }
 }

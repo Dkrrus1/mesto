@@ -1,32 +1,4 @@
-// начальные карточки на сайте
-const initialCards = [
-  {
-    name: 'Архыз',
-    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/arkhyz.jpg'
-  },
-  {
-    name: 'Челябинская область',
-    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/chelyabinsk-oblast.jpg'
-  },
-  {
-    name: 'Иваново',
-    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/ivanovo.jpg'
-  },
-  {
-    name: 'Камчатка',
-    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/kamchatka.jpg'
-  },
-  {
-    name: 'Холмогорский район',
-    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/kholmogorsky-rayon.jpg'
-  },
-  {
-    name: 'Байкал',
-    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/baikal.jpg'
-  }
-];
-
-const enableValidation = {
+const formFields = {
   inputSelector: '.popup__input',
   submitButtonSelector: '.edit-form__submit',
   inactiveButtonClass: 'popup__button_disabled',
@@ -46,41 +18,26 @@ const profileName = document.querySelector('.profile__name');
 const profileProfession = document.querySelector('.profile__profession');
 const cardName = popupLinkAdd.querySelector('.edit-form__name');
 const cardLink = popupLinkAdd.querySelector('.edit-form__profession');
-const cardContainer = document.querySelector('.cards__grid');
 const popups = document.querySelectorAll('.popup');
-const editForms = document.querySelectorAll('.edit-form');
 
-import { Card } from './card.js'
-import { FormValidator } from './validate.js';
+import { initialCards } from './cards.js';
+import { Card } from './Card.js';
+import { FormValidator } from './FormValidator.js';
+import { openPopup, handleEscape, cardContainer } from './utils.js';
 
-editForms.forEach(function (form) {
-  new FormValidator (enableValidation, form).enableValidation();
-});
+const profileFormValidator = new FormValidator (formFields, popupProfileEdit);
+const linkFormValidator = new FormValidator (formFields, popupLinkAdd);
+profileFormValidator.enableValidation();
+linkFormValidator.enableValidation();
 
 // добавляем карточки из массива
 const renderElements = () => {
-  // cardContainer.innerHTML = ''
   initialCards.forEach(function (item){
     const card = new Card(item.name, item.link, '#card');
-    const cardElement = card.generateCard();
-    cardContainer.append(cardElement);
+    card.renderCard();
 });
 }
 renderElements();
-
-// функция закрытия по кнопке escape
-function handleEscape(event) {
-  if (event.key === 'Escape') {
-    const activePopup = document.querySelector('.popup_opened');
-    closePopup(activePopup);
-  }
-}
-
-// функции открытия и закрытия попапов
-function openPopup(popup) {
-  popup.classList.add('popup_opened');
-  document.addEventListener('keyup', handleEscape);
-};
 
 function closePopup(popup) {
   popup.classList.remove('popup_opened');
@@ -91,6 +48,7 @@ function closePopup(popup) {
 function openEditProfile(){
   editName.value = profileName.textContent;
   editProfecy.value = profileProfession.textContent;
+  profileFormValidator.resetValidation();
   openPopup(popupProfileEdit);
 };
 
@@ -113,10 +71,12 @@ popups.forEach((popup) => {
 
 // открываем попап для добавления картинок
 function openLinkAdd(){
-  const submitButton = addNewLink.querySelector('.edit-form__submit');
-  submitButton.classList.add('popup__button_disabled');
-  submitButton.setAttribute('disabled', true);
+  // const submitButton = addNewLink.querySelector('.edit-form__submit');
+  // submitButton.classList.add('popup__button_disabled');
+  // submitButton.setAttribute('disabled', true);
   openPopup(popupLinkAdd);
+  linkFormValidator.resetValidation();
+  linkFormValidator.buttonDisable();
   addNewLink.reset();
 };
 
@@ -124,8 +84,7 @@ function openLinkAdd(){
 function addNewCard (evt){
   evt.preventDefault();
   const card = new Card(cardName.value, cardLink.value, '#card');
-  const cardElement = card.generateCard();
-  cardContainer.prepend(cardElement);
+  card.renderCard();
   closePopup(popupLinkAdd);
 };
 
@@ -135,4 +94,3 @@ saveChanges.addEventListener('submit', saveEditProfile);
 addNewLink.addEventListener('submit', addNewCard);
 linkAddButton.addEventListener('click', openLinkAdd);
 
-export { openPopup };
