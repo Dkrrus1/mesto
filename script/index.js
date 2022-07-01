@@ -25,6 +25,14 @@ const initialCards = [
     link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/baikal.jpg'
   }
 ];
+
+const enableValidation = {
+  inputSelector: '.popup__input',
+  submitButtonSelector: '.edit-form__submit',
+  inactiveButtonClass: 'popup__button_disabled',
+  inputErrorClass: 'popup__input_type_error',
+  errorClass: 'popup__error_visible'
+};
 // объявляем переменные
 const popupProfileEdit = document.querySelector('.popup_profile-form');
 const popupLinkAdd = document.querySelector('.popup_link-form');
@@ -38,40 +46,27 @@ const profileName = document.querySelector('.profile__name');
 const profileProfession = document.querySelector('.profile__profession');
 const cardName = popupLinkAdd.querySelector('.edit-form__name');
 const cardLink = popupLinkAdd.querySelector('.edit-form__profession');
-const popupBigImage = document.querySelector('.popup_big-image');
-const bigImage = document.querySelector('.image-container__image');
-const bigImageTitle = document.querySelector('.image-container__title');
-const cardTemplate = document.querySelector('#card').content;
 const cardContainer = document.querySelector('.cards__grid');
-const popups = document.querySelectorAll('.popup')
+const popups = document.querySelectorAll('.popup');
+const editForms = document.querySelectorAll('.edit-form');
 
-// функция добавления карточек
-function createCard(cardName, cardLink){
-  const cardElement = cardTemplate.querySelector('.card').cloneNode(true);
+import { Card } from './card.js'
+import { FormValidator } from './validate.js';
 
-  cardElement.querySelector('.card__title').textContent = cardName;
-  cardElement.querySelector('.card__image').alt = cardName;
-  cardElement.querySelector('.card__image').src = cardLink;
-  cardElement.querySelector('.card__button').addEventListener('click', function (evt) {
-    evt.target.classList.toggle('card__button_active');
-  });
-  cardElement.querySelector('.card__trash-button').addEventListener('click', function (evt) {
-    const listItem = evt.target.closest('.card');
-    listItem.remove();
-  });
-  cardElement.querySelector('.card__image').addEventListener('click', function () {
-    bigImage.src = cardLink;
-    bigImage.alt = cardName;
-    bigImageTitle.textContent = cardName;
-    openPopup(popupBigImage);
-  });
-  return cardElement;
-};
+editForms.forEach(function (form) {
+  new FormValidator (enableValidation, form).enableValidation();
+});
 
 // добавляем карточки из массива
-initialCards.forEach(function (item){
-  cardContainer.append(createCard(item.name, item.link));
+const renderElements = () => {
+  // cardContainer.innerHTML = ''
+  initialCards.forEach(function (item){
+    const card = new Card(item.name, item.link, '#card');
+    const cardElement = card.generateCard();
+    cardContainer.append(cardElement);
 });
+}
+renderElements();
 
 // функция закрытия по кнопке escape
 function handleEscape(event) {
@@ -128,7 +123,9 @@ function openLinkAdd(){
 // добавляем новую карточку
 function addNewCard (evt){
   evt.preventDefault();
-  cardContainer.prepend(createCard(cardName.value, cardLink.value));
+  const card = new Card(cardName.value, cardLink.value, '#card');
+  const cardElement = card.generateCard();
+  cardContainer.prepend(cardElement);
   closePopup(popupLinkAdd);
 };
 
@@ -138,3 +135,4 @@ saveChanges.addEventListener('submit', saveEditProfile);
 addNewLink.addEventListener('submit', addNewCard);
 linkAddButton.addEventListener('click', openLinkAdd);
 
+export { openPopup };
