@@ -1,3 +1,8 @@
+import { initialCards } from './cards.js';
+import { Card } from './Card.js';
+import { FormValidator } from './FormValidator.js';
+import { openPopup, handleEscape, cardContainer } from './utils.js';
+
 const formFields = {
   inputSelector: '.popup__input',
   submitButtonSelector: '.edit-form__submit',
@@ -20,21 +25,21 @@ const cardName = popupLinkAdd.querySelector('.edit-form__name');
 const cardLink = popupLinkAdd.querySelector('.edit-form__profession');
 const popups = document.querySelectorAll('.popup');
 
-import { initialCards } from './cards.js';
-import { Card } from './Card.js';
-import { FormValidator } from './FormValidator.js';
-import { openPopup, handleEscape, cardContainer } from './utils.js';
-
 const profileFormValidator = new FormValidator (formFields, popupProfileEdit);
 const linkFormValidator = new FormValidator (formFields, popupLinkAdd);
 profileFormValidator.enableValidation();
 linkFormValidator.enableValidation();
 
+function renderCard (name, link, formSelector) {
+  const card = new Card(name, link, formSelector);
+  const cardElement = card.generateCard();
+  cardContainer.prepend(cardElement);
+}
+
 // добавляем карточки из массива
 const renderElements = () => {
   initialCards.forEach(function (item){
-    const card = new Card(item.name, item.link, '#card');
-    card.renderCard();
+    renderCard (item.name, item.link, '#card')
 });
 }
 renderElements();
@@ -71,9 +76,6 @@ popups.forEach((popup) => {
 
 // открываем попап для добавления картинок
 function openLinkAdd(){
-  // const submitButton = addNewLink.querySelector('.edit-form__submit');
-  // submitButton.classList.add('popup__button_disabled');
-  // submitButton.setAttribute('disabled', true);
   openPopup(popupLinkAdd);
   linkFormValidator.resetValidation();
   linkFormValidator.buttonDisable();
@@ -83,8 +85,7 @@ function openLinkAdd(){
 // добавляем новую карточку
 function addNewCard (evt){
   evt.preventDefault();
-  const card = new Card(cardName.value, cardLink.value, '#card');
-  card.renderCard();
+  renderCard (cardName.value, cardLink.value, '#card')
   closePopup(popupLinkAdd);
 };
 

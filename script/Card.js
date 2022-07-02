@@ -14,6 +14,7 @@ export class Card {
   // удаление карточки
   _deleteCard () {
     this._element.remove();
+    this._element = null;
   }
   // увеличиваем изображение карточки
   _openBigImage () {
@@ -53,8 +54,4 @@ export class Card {
     return this._element;
   }
 
-  renderCard() {
-    const newCard = this.generateCard();
-    cardContainer.prepend(newCard);
-  }
 }
