@@ -1,7 +1,7 @@
 // Показываем ошибки валидации
 export class FormValidator {
   constructor (data, formSelector) {
-    this._formSelector = formSelector;
+    this._formSelector = document.querySelector(formSelector);
     this._inputSelector = data.inputSelector;
     this._submitButtonSelector = data.submitButtonSelector;
     this._inactiveButtonClass = data.inactiveButtonClass;

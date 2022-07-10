@@ -1,9 +1,9 @@
 import { popupBigImage, bigImage, bigImageTitle, openPopup, cardContainer } from "./utils.js";
 
 export class Card {
-  constructor (cardName, cardLink, cardSelector){
-    this._cardName = cardName;
-    this._cardLink = cardLink;
+  constructor (data, cardSelector){
+    this._cardName = data.name;
+    this._cardLink = data.link;
     this._cardSelector = cardSelector;
   }
   // получаем форму по селектору

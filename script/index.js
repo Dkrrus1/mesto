@@ -1,7 +1,11 @@
 import { initialCards } from './cards.js';
 import { Card } from './Card.js';
 import { FormValidator } from './FormValidator.js';
-import { openPopup, handleEscape, cardContainer } from './utils.js';
+import { openPopup, handleEscape, cardContainer, profileSelectors } from './utils.js';
+import Section from './Section.js';
+import PopupWithImage from './PopupWithImage.js';
+import { UserInfo } from './UserInfo.js';
+import PopupWithForm from './PopupWithForm.js';
 
 const formFields = {
   inputSelector: '.popup__input',
@@ -11,7 +15,8 @@ const formFields = {
   errorClass: 'popup__error_visible'
 };
 // объявляем переменные
-const popupProfileEdit = document.querySelector('.popup_profile-form');
+const profileData = new UserInfo(profileSelectors);
+
 const popupLinkAdd = document.querySelector('.popup_link-form');
 const linkAddButton = document.querySelector('.profile__add-button');
 const profileEditButton = document.querySelector('.profile__edit-button');
@@ -25,24 +30,27 @@ const cardName = popupLinkAdd.querySelector('.edit-form__name');
 const cardLink = popupLinkAdd.querySelector('.edit-form__profession');
 const popups = document.querySelectorAll('.popup');
 
-const profileFormValidator = new FormValidator (formFields, popupProfileEdit);
-const linkFormValidator = new FormValidator (formFields, popupLinkAdd);
+const profileFormValidator = new FormValidator (formFields, '.popup_profile-form');
+const linkFormValidator = new FormValidator (formFields, '.popup_link-form');
 profileFormValidator.enableValidation();
 linkFormValidator.enableValidation();
 
-function renderCard (name, link, formSelector) {
-  const card = new Card(name, link, formSelector);
-  const cardElement = card.generateCard();
-  cardContainer.prepend(cardElement);
-}
+// создаем карточки из начального массива
+const cardList = new Section ({
+  items: initialCards,
+  renderer: (item) => {
+    cardList.setItem(renderCard(item, '#card')); // тут колбэком передаем методу функцию с отрисовкой карточек
+  }
+}, '.cards__grid'
+)
 
-// добавляем карточки из массива
-const renderElements = () => {
-  initialCards.forEach(function (item){
-    renderCard (item.name, item.link, '#card')
-});
+cardList.renderItems();
+// рисуем карточки
+function renderCard (data, formSelector) {
+  const card = new Card(data, formSelector);
+  const cardElement = card.generateCard();
+  return cardElement
 }
-renderElements();
 
 function closePopup(popup) {
   popup.classList.remove('popup_opened');
@@ -50,20 +58,10 @@ function closePopup(popup) {
 };
 
 // функция редактирования профиля
-function openEditProfile(){
-  editName.value = profileName.textContent;
-  editProfecy.value = profileProfession.textContent;
-  profileFormValidator.resetValidation();
-  openPopup(popupProfileEdit);
-};
-
-// сохранение изменений после редактирования профиля
-function saveEditProfile(evt){
-  evt.preventDefault();
-  profileName.textContent = editName.value;
-  profileProfession.textContent = editProfecy.value;
-  closePopup(popupProfileEdit);
-};
+const popupProfileEdit = new PopupWithForm ('.popup_profile-form', userFormSubmit => {
+  profileData.setUserInfo(userFormSubmit);
+})
+popupProfileEdit.setEventListeners();
 
 // закрываем попапы только по кнопке закрытия и кликом вне формы
 popups.forEach((popup) => {
@@ -85,13 +83,30 @@ function openLinkAdd(){
 // добавляем новую карточку
 function addNewCard (evt){
   evt.preventDefault();
-  renderCard (cardName.value, cardLink.value, '#card')
+  const userCard = {
+    name: cardName.value,
+    link: cardLink.value
+  }
+  cardContainer.prepend(renderCard(userCard, '#card'))
   closePopup(popupLinkAdd);
 };
 
 // вешаем слушателей для кнопок
-profileEditButton.addEventListener('click', openEditProfile);
-saveChanges.addEventListener('submit', saveEditProfile);
+profileEditButton.addEventListener('click', () => {
+  const data = profileData.getUserInfo();
+  editName.value = data.name;
+  editProfecy.value = data.info;
+  profileFormValidator.resetValidation();
+  popupProfileEdit.open();
+})
+saveChanges.addEventListener('submit', () => {
+  const data = {
+    name: editName.value,
+    info: editProfecy.value
+  };
+  profileData.setUserInfo(data);
+  popupProfileEdit.close();
+});
 addNewLink.addEventListener('submit', addNewCard);
 linkAddButton.addEventListener('click', openLinkAdd);
 

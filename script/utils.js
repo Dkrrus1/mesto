@@ -2,6 +2,10 @@ const popupBigImage = document.querySelector('.popup_big-image');
 const bigImage = document.querySelector('.image-container__image');
 const bigImageTitle = document.querySelector('.image-container__title');
 const cardContainer = document.querySelector('.cards__grid');
+const profileSelectors = {
+  name: '.profile__name',
+  info: '.profile__profession'
+};
 
 // функции открытия и закрытия попапов
 function openPopup(popup) {
@@ -17,4 +21,4 @@ function handleEscape(event) {
   }
 }
 
-export { popupBigImage, bigImage, bigImageTitle, cardContainer, handleEscape, openPopup };
+export { popupBigImage, bigImage, bigImageTitle, cardContainer, profileSelectors, handleEscape, openPopup };
