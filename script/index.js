@@ -3,6 +3,7 @@ import { Card } from './Card.js';
 import { FormValidator } from './FormValidator.js';
 import { openPopup, handleEscape, cardContainer, profileSelectors } from './utils.js';
 import Section from './Section.js';
+import Popup from './Popup.js';
 import PopupWithImage from './PopupWithImage.js';
 import { UserInfo } from './UserInfo.js';
 import PopupWithForm from './PopupWithForm.js';
@@ -52,25 +53,11 @@ function renderCard (data, formSelector) {
   return cardElement
 }
 
-function closePopup(popup) {
-  popup.classList.remove('popup_opened');
-  document.removeEventListener('keyup', handleEscape);
-};
-
-// функция редактирования профиля
+//класс редактирования профиля
 const popupProfileEdit = new PopupWithForm ('.popup_profile-form', userFormSubmit => {
   profileData.setUserInfo(userFormSubmit);
 })
 popupProfileEdit.setEventListeners();
-
-// закрываем попапы только по кнопке закрытия и кликом вне формы
-popups.forEach((popup) => {
-  popup.addEventListener('mousedown', (evt) => {
-     if (evt.target.classList.contains('popup__container-close-button') || evt.target.classList.contains('popup')) {
-        closePopup(popup)
-      }
-  })
-});
 
 // открываем попап для добавления картинок
 function openLinkAdd(){
