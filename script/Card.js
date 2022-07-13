@@ -1,10 +1,11 @@
 import { popupBigImage, bigImage, bigImageTitle, openPopup, cardContainer } from "./utils.js";
 
 export class Card {
-  constructor (data, cardSelector){
+  constructor ({data, cardClick}, cardSelector){
     this._cardName = data.name;
     this._cardLink = data.link;
     this._cardSelector = cardSelector;
+    this._cardClick = cardClick;
   }
   // получаем форму по селектору
   _getTemplate() {
@@ -17,12 +18,12 @@ export class Card {
     this._element = null;
   }
   // увеличиваем изображение карточки
-  _openBigImage () {
-    bigImage.src = this._cardLink;
-    bigImage.alt = this._cardName;
-    bigImageTitle.textContent = this._cardName;
-    openPopup(popupBigImage);
-  }
+  // _openBigImage () {
+  //   bigImage.src = this._cardLink;
+  //   bigImage.alt = this._cardName;
+  //   bigImageTitle.textContent = this._cardName;
+  //   openPopup(popupBigImage);
+  // }
   // поставить или удалить лайк
   _toggleLike() {
     this._likeButton.classList.toggle('card__button_active');
@@ -39,7 +40,7 @@ export class Card {
     });
     // увеличенное изображение по клику на картинку карточки
     this._element.querySelector('.card__image').addEventListener('click', () => {
-      this._openBigImage();
+      this._cardClick();
     });
 
     };

@@ -3,7 +3,6 @@ import { Card } from './Card.js';
 import { FormValidator } from './FormValidator.js';
 import { openPopup, handleEscape, cardContainer, profileSelectors } from './utils.js';
 import Section from './Section.js';
-import Popup from './Popup.js';
 import PopupWithImage from './PopupWithImage.js';
 import { UserInfo } from './UserInfo.js';
 import PopupWithForm from './PopupWithForm.js';
@@ -17,41 +16,50 @@ const formFields = {
 };
 // объявляем переменные
 const profileData = new UserInfo(profileSelectors);
+const popupBigImage = new PopupWithImage('.popup_big-image');
+popupBigImage.setEventListeners();
 
-const popupLinkAdd = document.querySelector('.popup_link-form');
+const popupLinkForm = document.querySelector('.popup_link-form');
 const linkAddButton = document.querySelector('.profile__add-button');
 const profileEditButton = document.querySelector('.profile__edit-button');
 const saveChanges = document.querySelector('.edit-form');
-const addNewLink = popupLinkAdd.querySelector('.edit-form');
+const addNewLink = popupLinkForm.querySelector('.edit-form');
 const editName = document.querySelector('.edit-form__name');
 const editProfecy = document.querySelector('.edit-form__profession');
-const profileName = document.querySelector('.profile__name');
-const profileProfession = document.querySelector('.profile__profession');
-const cardName = popupLinkAdd.querySelector('.edit-form__name');
-const cardLink = popupLinkAdd.querySelector('.edit-form__profession');
-const popups = document.querySelectorAll('.popup');
+const cardName = popupLinkForm.querySelector('.edit-form__name');
+const cardLink = popupLinkForm.querySelector('.edit-form__profession');
 
 const profileFormValidator = new FormValidator (formFields, '.popup_profile-form');
 const linkFormValidator = new FormValidator (formFields, '.popup_link-form');
 profileFormValidator.enableValidation();
 linkFormValidator.enableValidation();
 
+const createCard = (data) => {
+  const card = new Card({
+    data: data,
+    cardClick: () => {
+      popupBigImage.open(data);
+    }
+  }, '#card');
+  return card.generateCard();
+}
+
 // создаем карточки из начального массива
 const cardList = new Section ({
   items: initialCards,
   renderer: (item) => {
-    cardList.setItem(renderCard(item, '#card')); // тут колбэком передаем методу функцию с отрисовкой карточек
+    cardList.setItem(createCard(item));
   }
 }, '.cards__grid'
 )
 
 cardList.renderItems();
 // рисуем карточки
-function renderCard (data, formSelector) {
-  const card = new Card(data, formSelector);
-  const cardElement = card.generateCard();
-  return cardElement
-}
+// function renderCard (data, formSelector) {
+//   const card = new Card(data, formSelector);
+//   const cardElement = card.generateCard();
+//   return cardElement
+// }
 
 //класс редактирования профиля
 const popupProfileEdit = new PopupWithForm ('.popup_profile-form', userFormSubmit => {
@@ -60,23 +68,7 @@ const popupProfileEdit = new PopupWithForm ('.popup_profile-form', userFormSubmi
 popupProfileEdit.setEventListeners();
 
 // открываем попап для добавления картинок
-function openLinkAdd(){
-  openPopup(popupLinkAdd);
-  linkFormValidator.resetValidation();
-  linkFormValidator.buttonDisable();
-  addNewLink.reset();
-};
 
-// добавляем новую карточку
-function addNewCard (evt){
-  evt.preventDefault();
-  const userCard = {
-    name: cardName.value,
-    link: cardLink.value
-  }
-  cardContainer.prepend(renderCard(userCard, '#card'))
-  closePopup(popupLinkAdd);
-};
 
 // вешаем слушателей для кнопок
 profileEditButton.addEventListener('click', () => {
@@ -94,6 +86,15 @@ saveChanges.addEventListener('submit', () => {
   profileData.setUserInfo(data);
   popupProfileEdit.close();
 });
-addNewLink.addEventListener('submit', addNewCard);
-linkAddButton.addEventListener('click', openLinkAdd);
+// addNewLink.addEventListener('submit', () => {
+//   const userCard = {
+//     name: cardName.value,
+//     link: cardLink.value
+//   }
+//   cardContainer.prepend(renderCard(userCard, '#card'))
+//   popupLinkAdd.close()
+// });
+// linkAddButton.addEventListener('click', () => {
+//   linkFormValidator.resetValidation();
+//   popupLinkAdd.open()});
 
