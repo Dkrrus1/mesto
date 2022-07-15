@@ -6,6 +6,14 @@ import { Section } from './script/Section.js';
 import PopupWithImage from './script/PopupWithImage.js';
 import { UserInfo } from './script/UserInfo.js';
 import PopupWithForm from './script/PopupWithForm.js';
+import './pages/index.css';
+import avatarImage from './images/avatar.jpg';
+import logoImage from './images/logo.svg';
+
+const whoIsTheGoat = [
+  {name: 'Аватар', image: avatarImage},
+  {name: 'Логотип', image: logoImage},
+]
 
 const formFields = {
   inputSelector: '.popup__input',
