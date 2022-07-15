@@ -12,6 +12,6 @@ export class UserInfo {
   }
   setUserInfo(item) {
     this._userName.textContent = item.name;
-    this._userInfo.textContent = item.info;
+    this._userInfo.textContent = item.profession;
   }
 }

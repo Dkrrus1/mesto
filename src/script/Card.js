@@ -1,5 +1,3 @@
-import { popupBigImage, bigImage, bigImageTitle, openPopup, cardContainer } from "./utils.js";
-
 export class Card {
   constructor ({data, cardClick}, cardSelector){
     this._cardName = data.name;
@@ -17,13 +15,6 @@ export class Card {
     this._element.remove();
     this._element = null;
   }
-  // увеличиваем изображение карточки
-  // _openBigImage () {
-  //   bigImage.src = this._cardLink;
-  //   bigImage.alt = this._cardName;
-  //   bigImageTitle.textContent = this._cardName;
-  //   openPopup(popupBigImage);
-  // }
   // поставить или удалить лайк
   _toggleLike() {
     this._likeButton.classList.toggle('card__button_active');

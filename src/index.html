@@ -1,11 +1,76 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Document</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Проект Место</title>
 </head>
-<body>
-
+<body class="page">
+  <header class="header">
+    <a href="https://dkrrus1.github.io/mesto/" class="header__link"><img src="./images/logo.svg" class="header__logo" alt="Логотип"></a>
+  </header>
+  <main class="content">
+    <section class="profile">
+      <img src="./images/avatar.jpg" alt="Жак-Ив Кусто" class="profile__image">
+      <div class="profile__info">
+        <h1 class="profile__name">Жак-Ив Кусто</h1>
+        <button type="button" class="profile__edit-button" aria-label="Редактировать профиль"></button>
+        <p class="profile__profession">Исследователь океана</p>
+      </div>
+      <button type="button" class="profile__add-button" aria-label="Добавить фото"></button>
+    </section>
+    <section class="cards">
+      <ul class="cards__grid">
+      </ul>
+    </section>
+  </main>
+  <footer class="footer">
+    <p class="footer__copyright">© 2020 Mesto Russia</p>
+  </footer>
+  <div class="popup popup_profile-form">
+    <div class="popup__container">
+      <button type="button" class="popup__container-close-button" aria-label="Закрыть окно без сохранения"></button>
+      <form class="edit-form" name="profile-edit" method="post" novalidate>
+        <h3 class="edit-form__title">Редактировать профиль</h3>
+        <input type="text" name="name" id="profile-name" class="edit-form__name popup__input" placeholder="Имя" minlength="2" maxlength="40" required>
+        <span class="popup__input-error profile-name-error">Ошибка</span>
+        <input type="text" name="profession" id="profile-profession" class="edit-form__profession popup__input" placeholder="О себе" minlength="2" maxlength="200" required>
+        <span class="popup__input-error profile-profession-error">Ошибка</span>
+        <button type="submit" class="edit-form__submit" aria-label="Сохранить изменения">Сохранить</button>
+      </form>
+    </div>
+  </div>
+  <div class="popup popup_link-form">
+    <div class="popup__container">
+      <button type="button" class="popup__container-close-button" aria-label="Закрыть окно без сохранения"></button>
+      <form class="edit-form" name="link-add" method="post" novalidate>
+        <h3 class="edit-form__title">Новое место</h3>
+        <input type="text" name="name" id="link-name" class="edit-form__name popup__input" placeholder="Название" minlength="2" maxlength="200" required>
+        <span class="popup__input-error link-name-error">Ошибка</span>
+        <input type="url" name="link" id="link-url" class="edit-form__profession popup__input" placeholder="Ссылка на картинку" required>
+        <span class="popup__input-error link-url-error">Ошибка</span>
+        <button type="submit" class="edit-form__submit" aria-label="Сохранить изменения">Сохранить</button>
+      </form>
+    </div>
+  </div>
+  <div class="popup popup_big-image">
+    <div class="popup__container popup__container_image">
+      <button type="button" class="popup__container-close-button" aria-label="Закрыть"></button>
+        <div class="image-container">
+          <img src="#" alt="Увеличенная картинка карточки" class="image-container__image">
+          <h2 class="image-container__title"></h2>
+        </div>
+    </div>
+  </div>
+  <template id="card">
+    <li class="card">
+      <img src="#" class="card__image" alt="Картинка карточки">
+      <button type="button" class="card__trash-button" aria-label="Удалить карточку"></button>
+      <div class="card__description">
+        <h2 class="card__title"></h2>
+        <button type="button" class="card__button" aria-label="Поставить лайк"></button>
+      </div>
+    </li>
+  </template>
 </body>
 </html>
