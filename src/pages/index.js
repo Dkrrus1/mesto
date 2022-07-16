@@ -1,14 +1,14 @@
-import { initialCards } from './script/cards.js';
-import { Card } from './script/Card.js';
-import { FormValidator } from './script/FormValidator.js';
-import { profileSelectors } from './script/utils.js';
-import { Section } from './script/Section.js';
-import PopupWithImage from './script/PopupWithImage.js';
-import { UserInfo } from './script/UserInfo.js';
-import PopupWithForm from './script/PopupWithForm.js';
-import './pages/index.css';
-import avatarImage from './images/avatar.jpg';
-import logoImage from './images/logo.svg';
+import { initialCards } from '../components/cards.js';
+import { Card } from '../components/Card.js';
+import { FormValidator } from '../components/FormValidator.js';
+import { profileSelectors } from '../components/utils.js';
+import { Section } from '../components/Section.js';
+import PopupWithImage from '../components/PopupWithImage.js';
+import { UserInfo } from '../components/UserInfo.js';
+import PopupWithForm from '../components/PopupWithForm.js';
+import './index.css';
+import avatarImage from '../images/avatar.jpg';
+import logoImage from '../images/logo.svg';
 
 const whoIsTheGoat = [
   {name: 'Аватар', image: avatarImage},
@@ -23,17 +23,21 @@ const formFields = {
   errorClass: 'popup__error_visible'
 };
 // объявляем переменные
-const profileData = new UserInfo(profileSelectors);
-const popupBigImage = new PopupWithImage('.popup_big-image');
-popupBigImage.setEventListeners();
-
+const bigImage = document.querySelector('.popup_big-image');
 const linkAddButton = document.querySelector('.profile__add-button');
 const profileEditButton = document.querySelector('.profile__edit-button');
-const editName = document.querySelector('.edit-form__name');
-const editProfecy = document.querySelector('.edit-form__profession');
+const nameEdit = document.querySelector('.edit-form__name');
+const infoEdit = document.querySelector('.edit-form__profession');
+const proflieForm = document.querySelector('.popup_profile-form');
+const linkForm = document.querySelector('.popup_link-form');
+const cardsContainer = document.querySelector('.cards__grid');
 
-const profileFormValidator = new FormValidator (formFields, '.popup_profile-form');
-const linkFormValidator = new FormValidator (formFields, '.popup_link-form');
+const profileData = new UserInfo(profileSelectors);
+const popupBigImage = new PopupWithImage(bigImage);
+popupBigImage.setEventListeners();
+
+const profileFormValidator = new FormValidator (formFields, proflieForm);
+const linkFormValidator = new FormValidator (formFields, linkForm);
 profileFormValidator.enableValidation();
 linkFormValidator.enableValidation();
 
@@ -41,7 +45,7 @@ linkFormValidator.enableValidation();
 const createCard = (data) => {
   const card = new Card({
     data: data,
-    cardClick: () => {
+    handleCardClick: () => {
       popupBigImage.open(data);
     }
   }, '#card');
@@ -50,23 +54,22 @@ const createCard = (data) => {
 
 // создаем карточки из начального массива
 const cardList = new Section ({
-  items: initialCards,
   renderer: (item) => {
     cardList.setItem(createCard(item));
   }
-}, '.cards__grid'
+}, cardsContainer
 )
-cardList.renderItems();
+cardList.renderItems(initialCards);
 
 
 //класс редактирования профиля
-const popupProfileEdit = new PopupWithForm ('.popup_profile-form', userFormSubmit => {
+const popupProfileEdit = new PopupWithForm (proflieForm, userFormSubmit => {
   profileData.setUserInfo(userFormSubmit);
 })
 popupProfileEdit.setEventListeners();
 
 // класс добавления картинок
-const popupNewCardAdd = new PopupWithForm ('.popup_link-form', userFormSubmit => {
+const popupNewCardAdd = new PopupWithForm (linkForm, userFormSubmit => {
   const newCard = createCard(userFormSubmit);
   cardList.setItem(newCard);
 })
@@ -75,8 +78,8 @@ popupNewCardAdd.setEventListeners();
 // вешаем слушателей для кнопок
 profileEditButton.addEventListener('click', () => {
   const data = profileData.getUserInfo();
-  editName.value = data.name;
-  editProfecy.value = data.info;
+  nameEdit.value = data.name;
+  infoEdit.value = data.info;
   profileFormValidator.resetValidation();
   popupProfileEdit.open();
 })

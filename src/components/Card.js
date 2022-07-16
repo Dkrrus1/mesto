@@ -1,9 +1,9 @@
 export class Card {
-  constructor ({data, cardClick}, cardSelector){
+  constructor ({data, handleCardClick}, cardSelector){
     this._cardName = data.name;
     this._cardLink = data.link;
     this._cardSelector = cardSelector;
-    this._cardClick = cardClick;
+    this._handleCardClick = handleCardClick;
   }
   // получаем форму по селектору
   _getTemplate() {
@@ -30,18 +30,19 @@ export class Card {
       this._deleteCard();
     });
     // увеличенное изображение по клику на картинку карточки
-    this._element.querySelector('.card__image').addEventListener('click', () => {
-      this._cardClick();
+    this._cardImage.addEventListener('click', () => {
+      this._handleCardClick();
     });
 
     };
 
   generateCard() {
     this._element = this._getTemplate();
+    this._cardImage = this._element.querySelector('.card__image');
     this._likeButton = this._element.querySelector('.card__button');
     this._element.querySelector('.card__title').textContent = this._cardName;
-    this._element.querySelector('.card__image').alt = this._cardName;
-    this._element.querySelector('.card__image').src = this._cardLink;
+    this._cardImage.alt = this._cardName;
+    this._cardImage.src = this._cardLink;
     this._setEventListners();
     return this._element;
   }
