@@ -23,21 +23,17 @@ const formFields = {
   errorClass: 'popup__error_visible'
 };
 // объявляем переменные
-const bigImage = document.querySelector('.popup_big-image');
 const linkAddButton = document.querySelector('.profile__add-button');
 const profileEditButton = document.querySelector('.profile__edit-button');
 const nameEdit = document.querySelector('.edit-form__name');
 const infoEdit = document.querySelector('.edit-form__profession');
-const proflieForm = document.querySelector('.popup_profile-form');
-const linkForm = document.querySelector('.popup_link-form');
-const cardsContainer = document.querySelector('.cards__grid');
 
 const profileData = new UserInfo(profileSelectors);
-const popupBigImage = new PopupWithImage(bigImage);
+const popupBigImage = new PopupWithImage('.popup_big-image');
 popupBigImage.setEventListeners();
 
-const profileFormValidator = new FormValidator (formFields, proflieForm);
-const linkFormValidator = new FormValidator (formFields, linkForm);
+const profileFormValidator = new FormValidator (formFields, '.popup_profile-form');
+const linkFormValidator = new FormValidator (formFields, '.popup_link-form');
 profileFormValidator.enableValidation();
 linkFormValidator.enableValidation();
 
@@ -57,19 +53,19 @@ const cardList = new Section ({
   renderer: (item) => {
     cardList.setItem(createCard(item));
   }
-}, cardsContainer
+}, '.cards__grid'
 )
 cardList.renderItems(initialCards);
 
 
 //класс редактирования профиля
-const popupProfileEdit = new PopupWithForm (proflieForm, userFormSubmit => {
+const popupProfileEdit = new PopupWithForm ('.popup_profile-form', userFormSubmit => {
   profileData.setUserInfo(userFormSubmit);
 })
 popupProfileEdit.setEventListeners();
 
 // класс добавления картинок
-const popupNewCardAdd = new PopupWithForm (linkForm, userFormSubmit => {
+const popupNewCardAdd = new PopupWithForm ('.popup_link-form', userFormSubmit => {
   const newCard = createCard(userFormSubmit);
   cardList.setItem(newCard);
 })
