@@ -27,13 +27,15 @@ const linkAddButton = document.querySelector('.profile__add-button');
 const profileEditButton = document.querySelector('.profile__edit-button');
 const nameEdit = document.querySelector('.edit-form__name');
 const infoEdit = document.querySelector('.edit-form__profession');
+const popupProfileForm = document.querySelector('.popup_profile-form');
+const popupLinkForm = document.querySelector('.popup_link-form');
 
 const profileData = new UserInfo(profileSelectors);
 const popupBigImage = new PopupWithImage('.popup_big-image');
 popupBigImage.setEventListeners();
 
-const profileFormValidator = new FormValidator (formFields, '.popup_profile-form');
-const linkFormValidator = new FormValidator (formFields, '.popup_link-form');
+const profileFormValidator = new FormValidator (formFields, popupProfileForm);
+const linkFormValidator = new FormValidator (formFields, popupLinkForm);
 profileFormValidator.enableValidation();
 linkFormValidator.enableValidation();
 
