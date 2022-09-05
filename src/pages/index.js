@@ -56,6 +56,8 @@ const nameEdit = document.querySelector('.edit-form__name');
 const infoEdit = document.querySelector('.edit-form__profession');
 const popupProfileForm = document.querySelector('.popup_profile-form');
 const popupLinkForm = document.querySelector('.popup_link-form');
+const avatarEditButton = document.querySelector('.profile__button');
+const avatarEditForm = document.querySelector('.popup_confirm-avatar-change')
 
 const profileData = new UserInfo(profileSelectors);
 const popupBigImage = new PopupWithImage('.popup_big-image');
@@ -95,21 +97,26 @@ popupProfileEdit.setEventListeners();
 const popupNewCardAdd = new PopupWithForm ('.popup_link-form', userFormSubmit => {
   api.addNewPicture(userFormSubmit)
   .then((result) => {
-    cardList.setItem(result)
+    const newCard = createCard(result);
+    cardList.setItem(newCard);
   })
   .catch((err) => {
     console.log(err);
   });
-  // const newCard = createCard(userFormSubmit);
-  // cardList.setItem(newCard);
 })
 popupNewCardAdd.setEventListeners();
+
+//класс смены ссылки на аватар
+const popupAvatarEdit = new PopupWithForm('.popup_confirm-avatar-change', userFormSubmit => {
+
+})
+popupAvatarEdit.setEventListeners();
 
 // вешаем слушателей для кнопок
 profileEditButton.addEventListener('click', () => {
   const data = profileData.getUserInfo();
   nameEdit.value = data.name;
-  infoEdit.value = data.info;
+  infoEdit.value = data.about;
   profileFormValidator.resetValidation();
   popupProfileEdit.open();
 })
@@ -117,4 +124,8 @@ profileEditButton.addEventListener('click', () => {
 linkAddButton.addEventListener('click', () => {
   linkFormValidator.resetValidation();
   popupNewCardAdd.open();
+})
+
+avatarEditButton.addEventListener('click', () => {
+  popupAvatarEdit.open();
 })
