@@ -16,7 +16,7 @@
     <section class="profile">
       <div class="profile-container">
         <img src="#" alt="Аватар профиля" class="profile__image">
-        <button type="button" class=""></button>
+        <button type="button" class="profile__button"></button>
       </div>
 
       <div class="profile__info">
@@ -88,7 +88,10 @@
       <button type="button" class="card__trash-button" aria-label="Удалить карточку"></button>
       <div class="card__description">
         <h2 class="card__title"></h2>
-        <button type="button" class="card__button" aria-label="Поставить лайк"></button>
+        <div class="card__like-container">
+          <button type="button" class="card__like-button" aria-label="Поставить лайк"></button>
+          <span class="card__like-count">0</span>
+        </div>
       </div>
     </li>
   </template>

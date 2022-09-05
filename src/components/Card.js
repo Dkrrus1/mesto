@@ -17,7 +17,7 @@ export class Card {
   }
   // поставить или удалить лайк
   _toggleLike() {
-    this._likeButton.classList.toggle('card__button_active');
+    this._likeButton.classList.toggle('card__like-button_active');
   }
   // слушатели событий
   _setEventListners () {
@@ -39,7 +39,7 @@ export class Card {
   generateCard() {
     this._element = this._getTemplate();
     this._cardImage = this._element.querySelector('.card__image');
-    this._likeButton = this._element.querySelector('.card__button');
+    this._likeButton = this._element.querySelector('.card__like-button');
     this._element.querySelector('.card__title').textContent = this._cardName;
     this._cardImage.alt = this._cardName;
     this._cardImage.src = this._cardLink;

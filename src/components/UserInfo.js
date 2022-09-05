@@ -8,13 +8,13 @@ export class UserInfo {
     this._userData = {
       name: this._userName.textContent,
       about: this._userAbout.textContent,
-      avatar: this._userAvatar.style.backgbackgroundImage
+      avatar: this._userAvatar.src
     }
     return this._userData
   }
   setUserInfo(item) {
     this._userName.textContent = item.name;
     this._userAbout.textContent = item.about;
-    this._userAvatar.style.backgbackgroundImage = item.avatar;
+    this._userAvatar.src = item.avatar;
   }
 }
