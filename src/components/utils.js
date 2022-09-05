@@ -4,7 +4,8 @@ const bigImageTitle = document.querySelector('.image-container__title');
 const cardContainer = document.querySelector('.cards__grid');
 const profileSelectors = {
   name: '.profile__name',
-  info: '.profile__profession'
+  about: '.profile__profession',
+  avatar: '.profile__image'
 };
 
 export { profileSelectors };

@@ -9,11 +9,38 @@ import PopupWithForm from '../components/PopupWithForm.js';
 import './index.css';
 import avatarImage from '../images/avatar.jpg';
 import logoImage from '../images/logo.svg';
+import { Api } from '../components/Api.js';
 
 const whoIsTheGoat = [
   {name: 'Аватар', image: avatarImage},
   {name: 'Логотип', image: logoImage},
 ]
+
+const api = new Api({
+  baseUrl: 'https://mesto.nomoreparties.co/v1/cohort-49',
+  headers: {
+    authorization: '6aa2b4e4-0910-4691-8a6e-cf24dcaa9898',
+    'Content-Type': 'application/json'
+  }
+});
+
+// Получаем карточки через API и добавляем на сайт
+api.getInitialCards()
+  .then((result) => {
+    cardList.renderItems(result)
+  })
+  .catch((err) => {
+    console.log(err);
+  });
+
+  // Получаем информацию о пользователе и добавляем на сайт
+  api.getUserData()
+  .then((result) => {
+    profileData.setUserInfo(result)
+  })
+  .catch((err) => {
+    console.log(err);
+  });
 
 const formFields = {
   inputSelector: '.popup__input',
@@ -50,15 +77,13 @@ const createCard = (data) => {
   return card.generateCard();
 }
 
-// создаем карточки из начального массива
+// Получаем разметку
 const cardList = new Section ({
   renderer: (item) => {
     cardList.setItem(createCard(item));
   }
 }, '.cards__grid'
 )
-cardList.renderItems(initialCards);
-
 
 //класс редактирования профиля
 const popupProfileEdit = new PopupWithForm ('.popup_profile-form', userFormSubmit => {
@@ -68,8 +93,15 @@ popupProfileEdit.setEventListeners();
 
 // класс добавления картинок
 const popupNewCardAdd = new PopupWithForm ('.popup_link-form', userFormSubmit => {
-  const newCard = createCard(userFormSubmit);
-  cardList.setItem(newCard);
+  api.addNewPicture(userFormSubmit)
+  .then((result) => {
+    cardList.setItem(result)
+  })
+  .catch((err) => {
+    console.log(err);
+  });
+  // const newCard = createCard(userFormSubmit);
+  // cardList.setItem(newCard);
 })
 popupNewCardAdd.setEventListeners();
 
