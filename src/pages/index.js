@@ -91,6 +91,7 @@ const cardList = new Section ({
 
 //класс редактирования профиля
 const popupProfileEdit = new PopupWithForm ('.popup_profile-form', userFormSubmit => {
+  popupProfileEdit.renderPending(true);
   api.setUserData(userFormSubmit)
   .then((result) => {
     profileData.setUserInfo(result);
@@ -98,12 +99,14 @@ const popupProfileEdit = new PopupWithForm ('.popup_profile-form', userFormSubmi
   })
   .catch((err) => {
     console.log(err);
-  });
+  })
+  .finally(() => popupProfileEdit.renderPending(false))
 })
 popupProfileEdit.setEventListeners();
 
 // класс добавления картинок
 const popupNewCardAdd = new PopupWithForm ('.popup_link-form', userFormSubmit => {
+  popupNewCardAdd.renderPending(true);
   api.addNewPicture(userFormSubmit)
   .then((result) => {
     const newCard = createCard(result);
@@ -111,12 +114,14 @@ const popupNewCardAdd = new PopupWithForm ('.popup_link-form', userFormSubmit =>
   })
   .catch((err) => {
     console.log(err);
-  });
+  })
+  .finally(() => popupNewCardAdd.renderPending(false))
 })
 popupNewCardAdd.setEventListeners();
 
 //класс смены ссылки на аватар
 const popupAvatarEdit = new PopupWithForm('.popup_confirm-avatar-change', userFormSubmit => {
+  popupAvatarEdit.renderPending(true);
   api.setUserAvatar(userFormSubmit)
   .then((result) => {
     profileData.setAvatar(result);
@@ -124,7 +129,8 @@ const popupAvatarEdit = new PopupWithForm('.popup_confirm-avatar-change', userFo
   })
   .catch((err) => {
     console.log(err);
-  });
+  })
+  .finally(() => popupAvatarEdit.renderPending(false))
 })
 popupAvatarEdit.setEventListeners();
 
