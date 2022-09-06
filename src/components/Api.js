@@ -59,4 +59,20 @@ export class Api {
     })
     .then(this._errorCheck)
   }
+
+  addLike(id) {
+    return fetch(`${this.baseUrl}/cards/${id}/likes`, {
+      method: "PUT",
+      headers: this._headers
+    })
+      .then(this._errorCheck)
+  }
+
+  deleteLike(id) {
+    return fetch(`${this.baseUrl}/cards/${id}/likes`, {
+      method: "DELETE",
+      headers: this._headers
+    })
+      .then(this._errorCheck)
+  }
 }

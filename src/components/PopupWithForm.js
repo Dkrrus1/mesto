@@ -1,7 +1,7 @@
 import Popup from "./Popup.js";
 
 export default class PopupWithForm extends Popup {
-  constructor(selector, formSubmit){
+  constructor(selector, formSubmit) {
     super(selector);
     this._formSubmit = formSubmit;
     this._inputList = Array.from(this._popup.querySelectorAll('.popup__input'));
@@ -11,7 +11,7 @@ export default class PopupWithForm extends Popup {
   }
   _getInputValues() {
     const inputValues = {};
-    this._inputList.forEach(input => {inputValues[input.name] = input.value});
+    this._inputList.forEach(input => { inputValues[input.name] = input.value });
     return inputValues;
   }
   setEventListeners() {
@@ -27,7 +27,7 @@ export default class PopupWithForm extends Popup {
     this._popupForm.reset();
   }
   renderPending(isPending) {
-    if(isPending) {
+    if (isPending) {
       this._submitButton.textContent = 'Сохранение...';
     } else {
       this._submitButton.textContent = this._submitButtonTextContent;
