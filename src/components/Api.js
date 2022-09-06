@@ -1,70 +1,59 @@
 export class Api {
   constructor(options) {
     this.baseUrl = options.baseUrl;
-    this._authToken = options.headers.authorization;
-    this._cardsUrl = (this.baseUrl + '/cards');
-    this._userUrl = (this.baseUrl + '/users/me');
+    this._headers = options.headers;
+  }
+
+  _errorCheck(res) {
+    if (res.ok) {
+      return res.json();
+    }
+    return Promise.reject(`Ошибка: ${res.status}`)
   }
   getInitialCards() {
-    return fetch(this._cardsUrl, {
-      headers: {
-        authorization: this._authToken
-      }
+    return fetch(`${this.baseUrl}/cards`, {
+      headers: this._headers
     })
-      .then(res => {
-        if (res.ok) {
-          return res.json();
-        }
-        return Promise.reject(`Ошибка: ${res.status}`);
-      });
+    .then(this._errorCheck)
   }
   getUserData() {
-    return fetch(this._userUrl, {
-      headers: {
-        authorization: this._authToken
-      }
+    return fetch(`${this.baseUrl}/users/me`, {
+      headers: this._headers
     })
-      .then(res => {
-        if (res.ok) {
-          return res.json();
-        }
-        return Promise.reject(`Ошибка: ${res.status}`);
-      });
+    .then(this._errorCheck)
   }
   setUserData(data) {
-    return fetch(this._userUrl, {
+    return fetch(`${this.baseUrl}/users/me`, {
       method: 'PATCH',
-      headers: {
-        authorization: this._authToken,
-        'Content-Type': 'application/json'
-      },
+      headers: this._headers,
       body: JSON.stringify({
         name: data.name,
         about: data.about
       })
-    });
+    })
+    .then(this._errorCheck)
   }
+
+  setUserAvatar(link) {
+    return fetch(`${this.baseUrl}/users/me/avatar`, {
+      method: 'PATCH',
+      headers: this._headers,
+      body: JSON.stringify({
+        avatar: link.avatar
+      })
+    })
+    .then(this._errorCheck)
+  }
+
   addNewPicture(data) {
-    return fetch(this._cardsUrl, {
+    return fetch(`${this.baseUrl}/cards`, {
       method: 'POST',
-      headers: {
-        authorization: this._authToken,
-        'Content-Type': 'application/json'
-      },
+      headers: this._headers,
       body: JSON.stringify({
         name: data.name,
         link: data.link
       })
     })
-    .then(res => {
-      if (res.ok) {
-        return res.json();
-      }
-      return Promise.reject(`Ошибка: ${res.status}`);
-    });
-  }
-
-  deleteCard(id) {
-
+    .then(this._errorCheck)
   }
 }

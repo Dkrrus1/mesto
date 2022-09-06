@@ -65,8 +65,10 @@ popupBigImage.setEventListeners();
 
 const profileFormValidator = new FormValidator (formFields, popupProfileForm);
 const linkFormValidator = new FormValidator (formFields, popupLinkForm);
+const avatarFormValidator = new FormValidator (formFields, avatarEditForm);
 profileFormValidator.enableValidation();
 linkFormValidator.enableValidation();
+avatarFormValidator.enableValidation();
 
 // создаем карточку
 const createCard = (data) => {
@@ -108,7 +110,15 @@ popupNewCardAdd.setEventListeners();
 
 //класс смены ссылки на аватар
 const popupAvatarEdit = new PopupWithForm('.popup_confirm-avatar-change', userFormSubmit => {
-
+  console.log(userFormSubmit)
+  api.setUserAvatar(userFormSubmit)
+  .then((result) => {
+    profileData.setAvatar(result);
+    popupAvatarEdit.close();
+  })
+  .catch((err) => {
+    console.log(err);
+  });
 })
 popupAvatarEdit.setEventListeners();
 
@@ -127,5 +137,6 @@ linkAddButton.addEventListener('click', () => {
 })
 
 avatarEditButton.addEventListener('click', () => {
+  avatarFormValidator.resetValidation();
   popupAvatarEdit.open();
 })
