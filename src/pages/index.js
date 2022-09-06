@@ -33,10 +33,10 @@ api.getInitialCards()
     console.log(err);
   });
 
-  // Получаем информацию о пользователе и добавляем на сайт
-  api.getUserData()
+// Получаем информацию о пользователе и добавляем на сайт
+api.getUserData()
   .then((result) => {
-    profileData.setUserInfo(result)
+    profileData.setUserInfo(result);
   })
   .catch((err) => {
     console.log(err);
@@ -91,7 +91,14 @@ const cardList = new Section ({
 
 //класс редактирования профиля
 const popupProfileEdit = new PopupWithForm ('.popup_profile-form', userFormSubmit => {
-  profileData.setUserInfo(userFormSubmit);
+  api.setUserData(userFormSubmit)
+  .then((result) => {
+    profileData.setUserInfo(result);
+    popupProfileEdit.close();
+  })
+  .catch((err) => {
+    console.log(err);
+  });
 })
 popupProfileEdit.setEventListeners();
 
@@ -110,7 +117,6 @@ popupNewCardAdd.setEventListeners();
 
 //класс смены ссылки на аватар
 const popupAvatarEdit = new PopupWithForm('.popup_confirm-avatar-change', userFormSubmit => {
-  console.log(userFormSubmit)
   api.setUserAvatar(userFormSubmit)
   .then((result) => {
     profileData.setAvatar(result);

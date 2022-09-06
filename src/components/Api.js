@@ -10,18 +10,21 @@ export class Api {
     }
     return Promise.reject(`Ошибка: ${res.status}`)
   }
+
   getInitialCards() {
     return fetch(`${this.baseUrl}/cards`, {
       headers: this._headers
     })
     .then(this._errorCheck)
   }
+
   getUserData() {
     return fetch(`${this.baseUrl}/users/me`, {
       headers: this._headers
     })
     .then(this._errorCheck)
   }
+
   setUserData(data) {
     return fetch(`${this.baseUrl}/users/me`, {
       method: 'PATCH',
