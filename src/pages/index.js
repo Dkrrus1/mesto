@@ -10,6 +10,7 @@ import './index.css';
 import avatarImage from '../images/avatar.jpg';
 import logoImage from '../images/logo.svg';
 import { Api } from '../components/Api.js';
+import { PopupWithDelete } from '../components/PopupWithDelete.js';
 
 const whoIsTheGoat = [
   { name: 'Аватар', image: avatarImage },
@@ -52,6 +53,19 @@ const createCard = (data) => {
     data: data,
     handleCardClick: () => {
       popupBigImage.open(data);
+    },
+    handleCardDelete: () => {
+      popupCardDelete.open();
+      popupCardDelete.deleteConfirmation(() => {
+        popupCardDelete.renderPending(true);
+        api.deleteCard(data._id)
+        .then(() => {
+          card._deleteCard();
+          popupCardDelete.close();
+        })
+        .catch(err => console.log(err))
+        .finally(() => popupCardDelete.renderPending(false));
+      })
     }
   }, '#card', userId, api);
   return card.generateCard();
@@ -83,6 +97,10 @@ Promise.all([api.getUserData(), api.getInitialCards()])
   .catch((err) => {
     console.log(`Ошибка ${err}`);
   });
+
+//Класс удаления карточки
+const popupCardDelete = new PopupWithDelete('.popup_confirm-card-delete');
+popupCardDelete.setEventListeners();
 
 //класс редактирования профиля
 const popupProfileEdit = new PopupWithForm('.popup_profile-form', userFormSubmit => {

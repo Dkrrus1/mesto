@@ -1,9 +1,10 @@
 export class Card {
-  constructor({ data, handleCardClick }, cardSelector, userId, api) {
+  constructor({ data, handleCardClick, handleCardDelete }, cardSelector, userId, api) {
     this._cardName = data.name;
     this._cardLink = data.link;
     this._cardSelector = cardSelector;
     this._handleCardClick = handleCardClick;
+    this._handleCardDelete = handleCardDelete;
     this._cardId = data._id;
     this._ownerId = data.owner._id;
     this._likes = data.likes;
@@ -52,7 +53,7 @@ export class Card {
     }
     else {
       deleteButton.addEventListener('click', () => {
-        this._deleteCard();
+        this._handleCardDelete();
       })
     };
     // увеличенное изображение по клику на картинку карточки

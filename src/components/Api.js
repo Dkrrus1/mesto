@@ -75,4 +75,12 @@ export class Api {
     })
       .then(this._errorCheck)
   }
+
+  deleteCard(id) {
+    return fetch(`${this.baseUrl}/cards/${id}`, {
+      method: "DELETE",
+      headers: this._headers
+      })
+      .then(this._errorCheck)
+  }
 }
