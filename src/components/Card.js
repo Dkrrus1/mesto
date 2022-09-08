@@ -1,5 +1,5 @@
 export class Card {
-  constructor({ data, handleCardClick, handleCardDelete }, cardSelector, userId, api) {
+  constructor({ data, handleCardClick, handleCardDelete, handleLikeAdd, handleLikeDelete }, cardSelector, userId) {
     this._cardName = data.name;
     this._cardLink = data.link;
     this._cardSelector = cardSelector;
@@ -9,7 +9,9 @@ export class Card {
     this._ownerId = data.owner._id;
     this._likes = data.likes;
     this._userId = userId;
-    this._api = api;
+    this._addLike = handleLikeAdd;
+    this._deleteLike = handleLikeDelete;
+    this._likeClick = this._likeClick.bind(this);
   }
   // получаем форму по селектору
   _getTemplate() {
@@ -24,27 +26,32 @@ export class Card {
   // поставить или удалить лайк
   _toggleLike() {
     if (this._likeButton.classList.contains('card__like-button_active')) {
-      this._api.deleteLike(this._cardId)
-        .then(data => {
-          this._likeCount.textContent = data.likes.length;
-          this._likeButton.classList.remove('card__like-button_active');
-        })
-        .catch(err => console.log(err))
+      this._likeCount.textContent = this._likes.length;
+      this._likeButton.classList.remove('card__like-button_active');
     } else {
-      this._api.addLike(this._cardId)
-        .then(data => {
-          this._likeCount.textContent = data.likes.length;
-          this._likeButton.classList.add('card__like-button_active');
-        })
-        .catch(err => console.log(err))
+      this._likeCount.textContent = this._likes.length;
+      this._likeButton.classList.add('card__like-button_active');
     }
-
   }
+
+  _likeClick(like) {
+    this._likes = like;
+    this._toggleLike();
+  };
+
+  _toggleLikeButton() {
+    if (this._likeButton.classList.contains('card__like-button_active')) {
+      this._deleteLike(this._cardId, this._likeClick);
+    } else {
+      this._addLike(this._cardId, this._likeClick);
+    }
+  };
+
   // слушатели событий
   _setEventListners() {
     //лайк
     this._likeButton.addEventListener('click', () => {
-      this._toggleLike();
+      this._toggleLikeButton();
     });
     // удалить карточку
     const deleteButton = this._element.querySelector('.card__trash-button')

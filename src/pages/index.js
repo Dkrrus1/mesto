@@ -1,21 +1,13 @@
-import { initialCards } from '../components/cards.js';
 import { Card } from '../components/Card.js';
 import { FormValidator } from '../components/FormValidator.js';
-import { profileSelectors } from '../components/utils.js';
+import { profileSelectors } from '../utils/utils.js';
 import { Section } from '../components/Section.js';
 import PopupWithImage from '../components/PopupWithImage.js';
 import { UserInfo } from '../components/UserInfo.js';
 import PopupWithForm from '../components/PopupWithForm.js';
 import './index.css';
-import avatarImage from '../images/avatar.jpg';
-import logoImage from '../images/logo.svg';
 import { Api } from '../components/Api.js';
 import { PopupWithDelete } from '../components/PopupWithDelete.js';
-
-const whoIsTheGoat = [
-  { name: 'Аватар', image: avatarImage },
-  { name: 'Логотип', image: logoImage },
-]
 
 const formFields = {
   inputSelector: '.popup__input',
@@ -66,8 +58,26 @@ const createCard = (data) => {
         .catch(err => console.log(err))
         .finally(() => popupCardDelete.renderPending(false));
       })
+    },
+    handleLikeAdd: (cardId, setLike) => {
+      api.addLike(cardId)
+      .then((data) => {
+        setLike(data.likes)
+      })
+      .catch((err) => {
+        console.log(err)
+      })
+    },
+    handleLikeDelete: (cardId, setLike) => {
+      api.deleteLike(cardId)
+      .then((data) => {
+        setLike(data.likes)
+      })
+      .catch((err) => {
+        console.log(err)
+      })
     }
-  }, '#card', userId, api);
+  }, '#card', userId);
   return card.generateCard();
 }
 
@@ -124,6 +134,7 @@ const popupNewCardAdd = new PopupWithForm('.popup_link-form', userFormSubmit => 
     .then((result) => {
       const newCard = createCard(result);
       cardList.setItem(newCard);
+      popupNewCardAdd.close();
     })
     .catch((err) => {
       console.log(err);
@@ -149,9 +160,9 @@ popupAvatarEdit.setEventListeners();
 
 // вешаем слушателей для кнопок
 profileEditButton.addEventListener('click', () => {
-  const data = profileData.getUserInfo();
-  nameEdit.value = data.name;
-  infoEdit.value = data.about;
+  const userData = profileData.getUserInfo();
+  nameEdit.value = userData.name;
+  infoEdit.value = userData.about;
   profileFormValidator.resetValidation();
   popupProfileEdit.open();
 })

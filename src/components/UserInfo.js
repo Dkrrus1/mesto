@@ -12,12 +12,16 @@ export class UserInfo {
     return this._userData
   }
   setUserInfo(item) {
-    this._userName.textContent = item.name;
-    this._userAbout.textContent = item.about;
+    if (item.name && item.about) {
+      this._userName.textContent = item.name;
+      this._userAbout.textContent = item.about;
+    }
     this.setAvatar(item);
   }
 
   setAvatar(data) {
-    this._userAvatar.src = data.avatar;
+    if (data.avatar) {
+      this._userAvatar.src = data.avatar;
+    }
   }
 }
